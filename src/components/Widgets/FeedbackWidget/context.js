@@ -39,9 +39,9 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
       ...test.feedback,
     };
     const { _id } = await createNewFeedback(newFeedback);
-
     setFeedback({ _id, ...newFeedback });
     setView(nextView);
+    setProgress([true, false, false]);
     return { _id, ...newFeedback };
   }
 
