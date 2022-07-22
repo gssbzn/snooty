@@ -83,7 +83,7 @@ describe('FeedbackWidget', () => {
 
     it('is hidden outside of the waiting view on large/desktop screens', async () => {
       wrapper = await mountFormWithFeedbackState({
-        view: 'rating',
+        view: 'sentiment',
         comment: '',
         rating: null,
       });
@@ -152,7 +152,7 @@ describe('FeedbackWidget', () => {
   describe('FeedbackForm', () => {
     it('abandons feedback when the form is closed', async () => {
       wrapper = await mountFormWithFeedbackState({
-        view: 'rating',
+        view: 'sentiment',
         _id: new BSON.ObjectId(),
       });
       // Click the close button
@@ -168,9 +168,9 @@ describe('FeedbackWidget', () => {
           view: 'sentiment',
           _id: new BSON.ObjectId(),
         });
-        expect(wrapper.queryAllByText('Yes it did!')).toHaveLength(1);
+        expect(wrapper.queryAllByText('Yes, it did!')).toHaveLength(1);
         expect(wrapper.queryAllByText('No, I have feedback.')).toHaveLength(1);
-        expect(wrapper.queryAllByText('I have a suggetion.')).toHaveLength(1);
+        expect(wrapper.queryAllByText('I have a suggestion.')).toHaveLength(1);
       });
 
       it('transitions to the comment view when a category is clicked', async () => {
@@ -178,11 +178,9 @@ describe('FeedbackWidget', () => {
           view: 'sentiment',
           _id: new BSON.ObjectId(),
         });
-        /** 
-        userEvent.click(wrapper.container.getElementsByClassName(StyledSentiment));
+        userEvent.click(wrapper.queryByText('No, I have feedback.'));
         await tick();
         expect(wrapper.getByText('What seems to be the issue?')).toBeTruthy();
-        */
       });
     });
 
