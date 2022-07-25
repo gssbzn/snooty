@@ -48,7 +48,7 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
   // Once a user has selected the sentiment category, show them the comment/email input boxes.
   async function setSentiment(sentiment) {
     setView('comment');
-    setProgress([false, true, false]);
+    setProgress([true, true, false]);
   }
 
   // Sets the user's star rating for the page
@@ -134,7 +134,7 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
       setView('support');
     } else {
       setView('submitted');
-      setProgress([false, false, true]);
+      setProgress([true, true, true]);
     }
   }
 

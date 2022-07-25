@@ -2,11 +2,10 @@ import React from 'react';
 import LeafygreenCard from '@leafygreen-ui/card';
 import styled from '@emotion/styled';
 import ProgressBar from './components/PageIndicators';
-
 import CloseButton from './components/CloseButton';
 import { useFeedbackState } from './context';
 
-export default function FeedbackCard({ isOpen, children }) {
+export default function FloatingContainer({ isOpen, children }) {
   const { abandon } = useFeedbackState();
 
   return (
