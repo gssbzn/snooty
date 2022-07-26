@@ -15,6 +15,7 @@ const FeedbackContext = React.createContext();
 export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
   const [feedback, setFeedback] = React.useState((test.feedback !== {} && test.feedback) || null);
   const [isSupportRequest, setIsSupportRequest] = React.useState(test.isSupportRequest || false);
+  const [selectedSentiment, selectSentiment] = React.useState();
   const [progress, setProgress] = React.useState([true, false, false]);
   const [view, setView] = React.useState(test.view || 'waiting');
   const user = useStitchUser();
@@ -47,8 +48,11 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
 
   // Once a user has selected the sentiment category, show them the comment/email input boxes.
   async function setSentiment(sentiment) {
-    setView('comment');
-    setProgress([true, true, false]);
+    selectSentiment(sentiment);
+    if (sentiment && view !== 'comment') {
+      setView('comment');
+      setProgress([true, true, false]);
+    }
   }
 
   // Sets the user's star rating for the page
@@ -142,7 +146,7 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
   async function submitSupport() {
     if (!feedback) return;
     setView('submitted');
-    setProgress([false, false, true]);
+    setProgress([true, true, true]);
   }
 
   // Stop giving feedback (if in progress) and reset the widget to the
@@ -163,8 +167,10 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
     progress,
     view,
     isSupportRequest,
+    selectedSentiment,
     initializeFeedback,
     setRating,
+    selectSentiment,
     setSentiment,
     setQualifier,
     setProgress,
@@ -192,3 +198,20 @@ export function useFeedbackState() {
   }
   return feedback;
 }
+
+/** 
+export function changeSentiment(sentiment){
+  await selectSentiment(sentiment);
+
+}
+
+
+export function selectSentiment(selectedSentiment){
+  const feedback = React.useState();
+  if (!sen && sen!= 'positive'&&sen!= 'negative'&&sen!= 'sugestion') {
+    throw new Error(' You must select a sentiment that is one of the three categories.');
+  }
+  setFeedback({selectedSentiment});
+  
+}
+*/

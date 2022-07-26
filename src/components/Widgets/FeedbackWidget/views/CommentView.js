@@ -1,14 +1,15 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import TextArea from '@leafygreen-ui/text-area';
+//import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
 import Button from '@leafygreen-ui/button';
-import { Layout, RatingHeader, Footer } from '../components/view-components';
+import { Layout, CommentHeader, Footer } from '../components/view-components';
 import { useFeedbackState } from '../context';
-import { uiColors } from '@leafygreen-ui/palette';
+//import { uiColors } from '@leafygreen-ui/palette';
 import validateEmail from '../../../../utils/validate-email';
 // import ScreenshotButton from '../components/ScreenshotButton';
 import Loadable from '@loadable/component';
+import TextInput from '@leafygreen-ui/text-input';
 const ScreenshotButton = Loadable(() => import('../components/ScreenshotButton'));
 
 function useValidation(inputValue, validator) {
@@ -21,9 +22,13 @@ function useValidation(inputValue, validator) {
 }
 
 export default function CommentView({ ...props }) {
-  const { feedback, isSupportRequest, submitComment, submitAllFeedback } = useFeedbackState();
-  const { rating } = feedback || { rating: 3 };
-  const isPositiveRating = rating > 3;
+  const { selectedSentiment, submitComment, submitAllFeedback } = useFeedbackState();
+  const placeholderText =
+    selectedSentiment === 'positive'
+      ? 'How did this page help you?'
+      : selectedSentiment === 'negative'
+      ? 'How could this page be more helpful?'
+      : 'What change would you like to see?';
 
   const [comment, setComment] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -41,25 +46,23 @@ export default function CommentView({ ...props }) {
 
   return (
     <Layout>
-      <RatingHeader isPositive={isPositiveRating} />
-      <InputLabel htmlFor="feedback-comment">Comment</InputLabel>
-      <CommentTextArea
+      <CommentHeader />
+      <TextArea
         id="feedback-comment"
-        placeholder="Describe your experience."
+        placeholder={placeholderText}
         rows={4}
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      <InputLabel htmlFor="feedback-email">Email Address</InputLabel>
-      <EmailInput
+      <TextInput
         id="feedback-email"
-        placeholder="someone@example.com"
+        placeholder="email@email.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       {hasEmailError && <InputErrorLabel htmlFor="feedback-email">Please enter a valid email address.</InputErrorLabel>}
       <Footer>
-        <SubmitButton onClick={() => handleSubmit()}>{isSupportRequest ? 'Continue for Support' : 'Send'}</SubmitButton>
+        <SubmitButton onClick={() => handleSubmit()}>{'Send'}</SubmitButton>
         <ScreenshotButton />
       </Footer>
     </Layout>
@@ -67,11 +70,12 @@ export default function CommentView({ ...props }) {
 }
 
 const SubmitButton = styled(Button)``;
+/**
 const InputStyle = css`
   padding: 14px;
-  border: 0.5px solid ${uiColors.gray.base};
+  border: 0.5px solid ${uiColors.black.base};
   border-radius: 2px;
-  flex-grow: 10;
+  flex-grow: 3;
   line-height: 24px;
   font-size: 16px;
   max-height: 100%;
@@ -82,12 +86,15 @@ const InputStyle = css`
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
   }
 `;
+
+
 const CommentTextArea = styled.textarea`
   ${InputStyle}
 `;
 const EmailInput = styled.input`
   ${InputStyle}
 `;
+*/
 const InputLabel = styled.label`
   width: 100%;
   text-align: left;
