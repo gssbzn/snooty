@@ -26,7 +26,7 @@ export default function FloatingContainer({ isOpen, children }) {
 const Floating = styled.div`
   position: fixed;
   bottom: 40px;
-  right: 10px;
+  right: 15px;
   z-index: 10;
 `;
 const Card = styled(LeafygreenCard)`
