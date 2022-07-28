@@ -22,7 +22,7 @@ function useValidation(inputValue, validator) {
 }
 
 export default function CommentView({ ...props }) {
-  const { selectedSentiment, submitComment, submitAllFeedback } = useFeedbackState();
+  const { selectedSentiment, submitAllFeedback } = useFeedbackState();
   const placeholderText =
     selectedSentiment === 'positive'
       ? 'How did this page help you?'
@@ -37,8 +37,8 @@ export default function CommentView({ ...props }) {
 
   const handleSubmit = async () => {
     if (isValidEmail) {
-      await submitComment({ comment, email });
-      await submitAllFeedback();
+      //await submitComment({ comment, email });
+      await submitAllFeedback({ comment, email });
     } else {
       setHasEmailError(true);
     }
@@ -51,6 +51,7 @@ export default function CommentView({ ...props }) {
         id="feedback-comment"
         placeholder={placeholderText}
         value={comment}
+        rows={4}
         onChange={(e) => setComment(e.target.value)}
       ></StyledCommentInput>
       <StyledEmailInput
