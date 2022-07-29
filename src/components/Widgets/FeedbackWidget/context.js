@@ -135,6 +135,7 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
 
   async function submitAllFeedback({ comment = '', email = '' }) {
     setView('submitted');
+    setProgress([true, true, true]);
     if (!selectedSentiment) return;
     // Submit the full feedback document
     const segment = getSegmentUserId();
@@ -164,8 +165,6 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
 
     setFeedback(submittedFeedback);
     // Route the user to their "next steps"
-    setView('submitted');
-    setProgress([true, true, true]);
   }
 
   // Stop giving feedback (if in progress) and reset the widget to the
