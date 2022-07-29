@@ -24,9 +24,9 @@ function useValidation(inputValue, validator) {
 export default function CommentView({ ...props }) {
   const { selectedSentiment, submitAllFeedback } = useFeedbackState();
   const placeholderText =
-    selectedSentiment === 'positive'
+    selectedSentiment === 'Positive'
       ? 'How did this page help you?'
-      : selectedSentiment === 'negative'
+      : selectedSentiment === 'Negative'
       ? 'How could this page be more helpful?'
       : 'What change would you like to see?';
 
