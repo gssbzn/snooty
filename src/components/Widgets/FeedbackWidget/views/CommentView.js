@@ -48,7 +48,6 @@ export default function CommentView({ ...props }) {
       <CommentHeader />
       <StyledCommentInput
         id="feedback-comment"
-        label={'Comment'}
         placeholder={placeholderText}
         value={comment}
         rows={4}
