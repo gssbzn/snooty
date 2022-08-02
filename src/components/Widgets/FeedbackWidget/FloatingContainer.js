@@ -31,14 +31,11 @@ const Floating = styled.div`
 `;
 
 const Card = styled(LeafygreenCard)`
+  /* Card Size */
   width: 234px;
   min-height: 281px;
   max-height: 338px;
 
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 1;
   align-items: center;
 
   /* White */

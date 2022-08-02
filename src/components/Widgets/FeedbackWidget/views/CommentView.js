@@ -7,10 +7,9 @@ import { Layout, CommentHeader, Footer } from '../components/view-components';
 import { useFeedbackState } from '../context';
 import { uiColors } from '@leafygreen-ui/palette';
 import validateEmail from '../../../../utils/validate-email';
-// import ScreenshotButton from '../components/ScreenshotButton';
-//import Loadable from '@loadable/component';
+import Loadable from '@loadable/component';
 import TextInput from '@leafygreen-ui/text-input';
-//const ScreenshotButton = Loadable(() => import('../components/ScreenshotButton'));
+const ScreenshotButton = Loadable(() => import('../components/ScreenshotButton'));
 
 function useValidation(inputValue, validator) {
   const [isValid, setIsValid] = React.useState(null);
@@ -37,7 +36,6 @@ export default function CommentView({ ...props }) {
 
   const handleSubmit = async () => {
     if (isValidEmail) {
-      //await submitComment({ comment, email });
       await submitAllFeedback({ comment, email });
     } else {
       setHasEmailError(true);
@@ -54,6 +52,7 @@ export default function CommentView({ ...props }) {
         rows={4}
         onChange={(e) => setComment(e.target.value)}
       ></StyledCommentInput>
+      <ScreenshotButton />
       <StyledEmailInput
         id="feedback-email"
         placeholder="email@email.com"
@@ -62,15 +61,17 @@ export default function CommentView({ ...props }) {
         type={'email'}
       ></StyledEmailInput>
       <OptionalText>{'Optional'}</OptionalText>
-      {hasEmailError && <InputErrorLabel htmlFor="feedback-email">Please enter a valid email address.</InputErrorLabel>}
       <Footer>
         <SubmitButton onClick={() => handleSubmit()}>{'Send'}</SubmitButton>
+        {hasEmailError && (
+          <InputErrorLabel htmlFor="feedback-email">Please enter a valid email address.</InputErrorLabel>
+        )}
       </Footer>
     </Layout>
   );
 }
 
-const OptionalText = styled.span`
+const OptionalText = styled.div`
   width: 44px;
   height: 20px;
   font-family: 'Akzidenz-Grotesk Std';
@@ -80,15 +81,15 @@ const OptionalText = styled.span`
   line-height: 20px;
   /* identical to box height, or 167% */
   color: #5d6c74;
-  margin-top: -30px !important;
+  margin-top: -29px !important;
   margin-left: 130px !important;
   margin-bottom: 5px;
-  z-index: 5;
+  z-index: 10 !important;
   background: #ffffff;
 `;
 
 const SubmitButton = styled(Button)`
-  margin-top: 13px !important;
+  margin-top: 10px !important;
   margin-bottom: 16px;
   margin-right: -8px !important;
   height: 28px !important;
@@ -104,8 +105,7 @@ const SubmitButton = styled(Button)`
   font-style: normal;
 
   background: #f9fbfa;
-  display: flex;
-  flex-direction: row;
+  //position: fixed;
   justify-content: center;
   align-items: center;
   padding: 1px 12px 3px;
@@ -139,45 +139,40 @@ const EmailInput = styled.input`
 `;
 */
 const InputLabel = styled.label`
-  width: 100%;
+  width: 50%;
   text-align: left;
 `;
 const InputErrorLabel = styled(InputLabel)`
   color: red;
   margin-top: -16px;
-  margin-bottom: 16px;
+  margin-bottom: 0px;
 `;
 
 const StyledCommentInput = styled(TextArea)`
   width: 202px;
   margin-top: -16px;
+  z-index: 4;
+
   textarea::placeholder {
-    font-size: 15px !important; 
-    line-height: 24px;
-    color: #B8C4C2;
+    font-size: 15px !important;
+    color: #b8c4c2;
+    min-height: 100px !important;
   }
   textarea:active {
     border-color: ${uiColors.gray.base} !important;
-   }
-  /* Remove blue border on focus , shadow on hover*/
-  textarea::height{
-    140px;
   }
-
-
 `;
 
 const StyledEmailInput = styled(TextInput)`
   margin-top: 16px;
   div > input {
-    sizevariant: 'large';
     width: 202px;
     height: 40px;
-    box-shadow: none !important;
     border-color: ${uiColors.gray.base};
     ::placeholder {
       font-size: 16px;
       color: #b8c4c2;
+      height: 40px;
     }
   }
 `;
