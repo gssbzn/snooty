@@ -163,7 +163,6 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
     selectSentiment,
     setSentiment,
     setProgress,
-    //submitComment,
     submitScreenshot,
     submitAllFeedback,
     abandon,
