@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  createNewFeedback,
-  updateFeedback,
-  submitFeedback,
-  abandonFeedback,
-  useStitchUser,
-  addAttachment,
-} from './stitch';
+import { createNewFeedback, updateFeedback, useStitchUser, addAttachment } from './stitch';
 import { getSegmentUserId } from '../../../utils/segment';
 import { getViewport } from '../../../hooks/useViewport';
 
@@ -14,7 +7,6 @@ const FeedbackContext = React.createContext();
 
 export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
   const [feedback, setFeedback] = React.useState((test.feedback !== {} && test.feedback) || null);
-  const [isSupportRequest] = React.useState(test.isSupportRequest || false);
   const [selectedSentiment, selectSentiment] = React.useState();
   const [progress, setProgress] = React.useState([true, false, false]);
   const [view, setView] = React.useState(test.view || 'waiting');
@@ -22,8 +14,9 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
 
   // Create a new feedback document
   async function initializeFeedback(nextView = 'sentiment') {
-    const segment = getSegmentUserId();
-    const newFeedback = {
+    //const segment = getSegmentUserId();
+    const newFeedback = {};
+    /**{
       page: {
         title: page.title,
         slug: page.slug,
@@ -39,11 +32,11 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
       viewport: getViewport(),
       ...test.feedback,
     };
-    const { _id } = await createNewFeedback(newFeedback);
-    setFeedback({ _id, ...newFeedback });
+    const { _id } = await createNewFeedback(newFeedback);**/
+    setFeedback({ newFeedback });
     setView(nextView);
     setProgress([true, false, false]);
-    return { _id, ...newFeedback };
+    return { newFeedback };
   }
 
   // Once a user has selected the sentiment category, show them the comment/email input boxes.
@@ -119,22 +112,18 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
         docs_version: null,
       },
       user: {
-        stitch_id: user && user.id,
         segment_id: segment.id,
         isAnonymous: segment.isAnonymous,
+        stitch_id: user && user.id,
+        email: email,
       },
       viewport: getViewport(),
+      comment: comment,
+      category: selectedSentiment,
       ...test.feedback,
     };
-    await createNewFeedback(newFeedback);
-
-    const submittedFeedback = await submitFeedback({
-      feedback_id: feedback._id,
-      comment,
-      user: { email },
-    });
-
-    setFeedback(submittedFeedback);
+    createNewFeedback(newFeedback);
+    setFeedback(newFeedback);
     // Route the user to their "next steps"
   }
 
@@ -144,9 +133,7 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
     // Reset to the initial state
     setView('waiting');
     if (feedback) {
-      // We hold on to abandoned feedback in the database, so wait until
-      // we've marked the document as abandoned
-      await abandonFeedback({ feedback_id: feedback._id });
+      // set the sentiment and feedback to null
       setFeedback(null);
       selectSentiment(null);
     }
@@ -156,7 +143,6 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
     feedback,
     progress,
     view,
-    isSupportRequest,
     selectedSentiment,
     initializeFeedback,
     setRating,
