@@ -1,6 +1,6 @@
 import React from 'react';
 import TextArea from '@leafygreen-ui/text-area';
-///import { css } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Button from '@leafygreen-ui/button';
 import { Layout, CommentHeader, Footer } from '../components/view-components';
@@ -69,12 +69,12 @@ export default function CommentView({ ...props }) {
         className={cx(borderColor({ hasEmailError }))}
       ></StyledEmailInput>
       <EmailElement>
-        <OptionalText style={{ display: hasEmailError ? 'none' : '' }}>{'Optional'}</OptionalText>
-        <ErrorDisplay style={{ display: hasEmailError ? '' : 'none' }}>
+        <OptionalText hasEmailError={hasEmailError}>{'Optional'}</OptionalText>
+        <ErrorDisplay hasEmailError={hasEmailError}>
           <ErrorIcon></ErrorIcon>
         </ErrorDisplay>
       </EmailElement>
-      <InputErrorLabel htmlFor="feedback-email" style={{ display: hasEmailError ? '' : 'none' }}>
+      <InputErrorLabel hasEmailError={hasEmailError} htmlFor="feedback-email">
         Please enter a valid email.
       </InputErrorLabel>
       <Footer>
@@ -95,16 +95,22 @@ const ErrorIcon = () => (
   </svg>
 );
 
-const ErrorDisplay = styled.span`
-  margin-left: 30px;
-`;
+const ErrorDisplay = styled.span(
+  ({ hasEmailError }) => css`
+    display: ${hasEmailError ? '' : 'none'};
+    margin-left: 30px;
+  `
+);
 
-const OptionalText = styled.div`
-  font-family: 'Akzidenz-Grotesk Std';
-  font-style: italic;
-  font-weight: 300;
-  font-size: 13px;
-`;
+const OptionalText = styled.div(
+  ({ hasEmailError }) => css`
+    display: ${hasEmailError ? 'none' : ''};
+    font-family: 'Akzidenz-Grotesk Std';
+    font-style: italic;
+    font-weight: 300;
+    font-size: 13px;
+  `
+);
 const EmailElement = styled.div`
   width: 44px;
   height: 20px;
@@ -146,14 +152,17 @@ const SubmitButton = styled(Button)`
   border-radius: 4px;
 `;
 
-const InputErrorLabel = styled.label`
-  color: red;
-  text-align: center;
-  margin-top: 5px;
-  margin-left: -43px;
-  font-size: 13px;
-  margin-bottom: -5px;
-`;
+const InputErrorLabel = styled.label(
+  ({ hasEmailError }) => css`
+    display: ${hasEmailError ? '' : 'none'};
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    margin-left: -43px;
+    font-size: 13px;
+    margin-bottom: -5px;
+  `
+);
 
 const StyledCommentInput = styled(TextArea)`
   width: 202px;
