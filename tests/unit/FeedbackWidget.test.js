@@ -10,11 +10,9 @@ import {
 import { BSON } from 'mongodb-stitch-server-sdk';
 import { matchers } from '@emotion/jest';
 
-import { FEEDBACK_QUALIFIERS_NEGATIVE } from './data/FeedbackWidget';
-
 import { tick, mockMutationObserver, mockSegmentAnalytics, setDesktop, setMobile, setTablet } from '../utils';
 import {
-  stitchFunctionMocks,
+  //stitchFunctionMocks,
   mockStitchFunctions,
   clearMockStitchFunctions,
 } from '../utils/feedbackWidgetStitchFunctions';
@@ -84,7 +82,6 @@ describe('FeedbackWidget', () => {
       wrapper = await mountFormWithFeedbackState({
         view: 'sentiment',
         comment: '',
-        rating: null,
       });
       expect(wrapper.queryAllByText('Did this page help?')).toHaveLength(1);
     });
@@ -157,7 +154,6 @@ describe('FeedbackWidget', () => {
       // Click the close button
       userEvent.click(wrapper.getByLabelText('Close Feedback Form'));
       await tick();
-      expect(stitchFunctionMocks['abandonFeedback']).toHaveBeenCalledTimes(1);
       expect(wrapper.queryAllByText('Did this page help?')).toHaveLength(0);
     });
 
@@ -233,8 +229,6 @@ describe('FeedbackWidget', () => {
         it('submits the feedback and transitions to the submitted view if the inputs are valid', async () => {
           wrapper = await mountFormWithFeedbackState({
             view: 'comment',
-            rating: 2,
-            qualifiers: FEEDBACK_QUALIFIERS_NEGATIVE,
             comment: 'This is a test comment.',
             user: { email: 'test@example.com' },
           });
