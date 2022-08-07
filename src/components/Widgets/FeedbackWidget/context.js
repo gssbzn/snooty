@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createNewFeedback, useStitchUser, addAttachment } from './stitch';
 import { getSegmentUserId } from '../../../utils/segment';
 import { getViewport } from '../../../hooks/useViewport';
@@ -6,10 +6,10 @@ import { getViewport } from '../../../hooks/useViewport';
 const FeedbackContext = React.createContext();
 
 export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
-  const [feedback, setFeedback] = React.useState((test.feedback !== {} && test.feedback) || null);
-  const [selectedSentiment, selectSentiment] = React.useState();
-  const [progress, setProgress] = React.useState([true, false, false]);
-  const [view, setView] = React.useState(test.view || 'waiting');
+  const [feedback, setFeedback] = useState((test.feedback !== {} && test.feedback) || null);
+  const [selectedSentiment, selectSentiment] = useState();
+  const [progress, setProgress] = useState([true, false, false]);
+  const [view, setView] = useState(test.view || 'waiting');
   const user = useStitchUser();
 
   // Create a new feedback document
