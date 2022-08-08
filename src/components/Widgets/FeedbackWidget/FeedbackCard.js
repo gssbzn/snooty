@@ -5,12 +5,12 @@ import ProgressBar from './components/PageIndicators';
 import CloseButton from './components/CloseButton';
 import { useFeedbackState } from './context';
 
-export default function FloatingContainer({ isOpen, children }) {
+export default function FeedbackCard({ isOpen, children }) {
   const { abandon } = useFeedbackState();
 
   return (
     isOpen && (
-      <Floating>
+      <FloatingContainer>
         <Card>
           <CardHeader>
             <ProgressBar />
@@ -18,12 +18,12 @@ export default function FloatingContainer({ isOpen, children }) {
           </CardHeader>
           <Content>{children}</Content>
         </Card>
-      </Floating>
+      </FloatingContainer>
     )
   );
 }
 
-const Floating = styled.div`
+const FloatingContainer = styled.div`
   position: fixed;
   bottom: 40px;
   right: 15px;

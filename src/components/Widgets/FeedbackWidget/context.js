@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createNewFeedback, useStitchUser, addAttachment } from './stitch';
 import { getSegmentUserId } from '../../../utils/segment';
 import { getViewport } from '../../../hooks/useViewport';
+//import {useSnootyMetadata} from '../../../utils/use-snooty-metadata';
 
 const FeedbackContext = React.createContext();
 
@@ -47,6 +48,7 @@ export function FeedbackProvider({ page, hideHeader, test = {}, ...props }) {
   }
 
   async function submitAllFeedback({ comment = '', email = '' }) {
+    // const publishedBranches = useSnootyMetadata();
     // Route the user to their "next steps"
     setProgress([true, true, true]);
     setView('submitted');
