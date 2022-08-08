@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { palette } from '@leafygreen-ui/palette';
 import styled from '@emotion/styled';
 import useScreenshot from '../hooks/useScreenshot';
-import { ScreenshotIcon, ArrowIcon } from '../components/ScreenshotIcon';
+import { withPrefix } from 'gatsby';
+//import { ScreenshotIcon, ArrowIcon } from '../components/ScreenshotIcon';
 
 //styling for entire screenshot icon selector
 const ScreenshotSelect = styled('span')`
@@ -20,20 +21,18 @@ const StyledArrow = styled('div')`
   margin-top: -20px;
 `;
 
+const ArrowIcon = styled.img``;
+
+const ScreenshotIcon = styled.img``;
+
 export default function ScreenshotButton() {
-  const [setIsHovered] = useState(false);
   const { takeScreenshot } = useScreenshot();
   //const label = screenshot ? 'Screenshot Saved' : loading ? 'Taking Screenshot' : 'Take a Screenshot';
   return (
-    <ScreenshotSelect
-      id="screenshot-button"
-      onClick={takeScreenshot}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <ScreenshotIcon />
+    <ScreenshotSelect id="screenshot-button" onClick={takeScreenshot}>
+      <ScreenshotIcon src={withPrefix('assets/dashedbox.svg')} />
       <StyledArrow>
-        <ArrowIcon />
+        <ArrowIcon src={withPrefix('assets/arrowicon.svg')} />
       </StyledArrow>
     </ScreenshotSelect>
   );
