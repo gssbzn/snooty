@@ -3,7 +3,6 @@ import { palette } from '@leafygreen-ui/palette';
 import styled from '@emotion/styled';
 import useScreenshot from '../hooks/useScreenshot';
 import { withPrefix } from 'gatsby';
-//import { ScreenshotIcon, ArrowIcon } from '../components/ScreenshotIcon';
 
 //styling for entire screenshot icon selector
 const ScreenshotSelect = styled('span')`
@@ -15,7 +14,6 @@ const ScreenshotSelect = styled('span')`
   z-index: 5;
 `;
 
-//Screenshot icon arrow
 const StyledArrow = styled('div')`
   margin-left: 12px !important;
   margin-top: -20px;
@@ -27,7 +25,6 @@ const ScreenshotIcon = styled.img``;
 
 export default function ScreenshotButton() {
   const { takeScreenshot } = useScreenshot();
-  //const label = screenshot ? 'Screenshot Saved' : loading ? 'Taking Screenshot' : 'Take a Screenshot';
   return (
     <ScreenshotSelect id="screenshot-button" onClick={takeScreenshot}>
       <ScreenshotIcon src={withPrefix('assets/dashedbox.svg')} />
